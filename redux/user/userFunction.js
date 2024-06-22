@@ -8,7 +8,8 @@ export const RegisterUser = createAsyncThunk(
   async (userData, thunkAPI) => {
     try {
       const response = await axios.post(HOST + REGISTER_USER, userData);
-      return response.data.userData;
+      if(response.status===400) return {message:"User Already exist"}
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -21,7 +22,8 @@ export const LoginUser = createAsyncThunk(
   async (credentials, thunkAPI) => {
     try {
       const response = await axios.post(HOST + LOGIN_USER, credentials);
-      return response.data.userData;
+      console.log(response)
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -52,10 +54,10 @@ export const GetUser = createAsyncThunk(
     try {
       const response = await axios.get(HOST + GET_USER, {
         headers: {
-          token: localStorage.getItem("token"),
+          token: localStorage.getItem("atoken"),
         },
       });
-      return response.data.userData;
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -69,12 +71,12 @@ export const LogoutUser = createAsyncThunk(
     try {
       const response = await axios.post(HOST + LOGOUT_USER, {}, {
         headers: {
-          token: localStorage.getItem("token"),
+          token: localStorage.getItem("atoken"),
         },
       });
       // Clear the token from local storage
-      localStorage.removeItem("token");
-      return response.data.message;
+      localStorage.removeItem("atoken");
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }

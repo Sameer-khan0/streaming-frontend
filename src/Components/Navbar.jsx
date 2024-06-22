@@ -1,7 +1,17 @@
-import { useState } from 'react';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { GetUser } from "../../redux/user/userFunction";
+import UserAvatar from '../assets/Images/userav.png'
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.userData);
+
+  useEffect(() => {
+    dispatch(GetUser());
+  }, [dispatch]);
+
+  const [isOpen, setIsOpen] = React.useState(false);
 
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
@@ -12,33 +22,45 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center py-4">
           <div>
-            <span className="text-gray-800 text-xl font-bold">Social Stream</span>
+            <span className="text-gray-800 text-xl font-bold">
+              Social Stream
+            </span>
           </div>
           <div className="hidden pl-5 lg:flex lg:flex-grow lg:items-center lg:w-auto">
-            <a
-              href="#"
-              className="text-gray-800 hover:text-gray-600 mr-4"
-            >
+            <a href="#" className="text-gray-800 hover:text-gray-600 mr-4">
               Home
             </a>
-            <a
-              href="#"
-              className="text-gray-800 hover:text-gray-600 mr-4"
-            >
+            <a href="#" className="text-gray-800 hover:text-gray-600 mr-4">
               Stream
             </a>
-            <a
-              href="#"
-              className="text-gray-800 hover:text-gray-600"
-            >
+            <a href="#" className="text-gray-800 hover:text-gray-600">
               Board
             </a>
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center w-[50%] md:w-auto justify-between ">
+          {user ? (
+              <div className="ml-4 flex items-center">
+                <img
+                  src={UserAvatar}
+                  alt={user.username}
+                  className="w-8 h-8 rounded-full object-cover"
+                />
+                <span className="text-gray-800 ml-2 md:text-lg text-sm font-semibold ">{user.username}</span>
+              </div>
+            ) : (
+              <div className="ml-2 none md:block ">
+                <button className="text-gray-800 md:text-lg text-sm bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-lg mr-2">
+                  Sign In
+                </button>
+                <button className="text-gray-800 md:text-lg text-sm bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-lg">
+                  Login
+                </button>
+              </div>
+            )}
             <button
               onClick={toggleNavbar}
               className={`lg:hidden text-gray-800 hover:text-gray-600 focus:outline-none transition-all duration-300 ${
-                isOpen ? 'rotate-180' : ''
+                isOpen ? "rotate-180" : ""
               }`}
             >
               <svg
@@ -61,14 +83,6 @@ const Navbar = () => {
                 )}
               </svg>
             </button>
-            <div className="ml-4 hidden md:block ">
-              <button className="text-gray-800 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-lg mr-2">
-                Sign In
-              </button>
-              <button className="text-gray-800 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-lg">
-                Login
-              </button>
-            </div>
           </div>
         </div>
       </div>
@@ -76,21 +90,44 @@ const Navbar = () => {
       {/* Responsive navbar links */}
       {isOpen && (
         <div className="lg:hidden bg-white py-4">
-          <a href="#" className="block text-gray-800 hover:text-gray-600 px-4 py-2">
+          <a
+            href="#"
+            className="block text-gray-800 hover:text-gray-600 px-4 py-2"
+          >
             Home
           </a>
-          <a href="#" className="block text-gray-800 hover:text-gray-600 px-4 py-2">
+          <a
+            href="#"
+            className="block text-gray-800 hover:text-gray-600 px-4 py-2"
+          >
             Stream
           </a>
-          <a href="#" className="block text-gray-800 hover:text-gray-600 px-4 py-2">
+          <a
+            href="#"
+            className="block text-gray-800 hover:text-gray-600 px-4 py-2"
+          >
             Board
           </a>
-          <a href="#" className="block text-gray-800 hover:text-gray-600 px-4 py-2">
-            Signin
-          </a>
-          <a href="#" className="block text-gray-800 hover:text-gray-600 px-4 py-2">
-            login
-          </a>
+          {user ? (
+            <span className="block text-gray-800 px-4 py-2">
+              Welcome, {user.username}
+            </span>
+          ) : (
+            <>
+              <a
+                href="#"
+                className="block text-gray-800 hover:text-gray-600 px-4 py-2"
+              >
+                Sign In
+              </a>
+              <a
+                href="#"
+                className="block text-gray-800 hover:text-gray-600 px-4 py-2"
+              >
+                Login
+              </a>
+            </>
+          )}
         </div>
       )}
     </nav>
