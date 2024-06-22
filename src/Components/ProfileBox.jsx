@@ -2,15 +2,25 @@ import { FaYoutube, FaTwitter, FaFacebook } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import UserAvator from "../assets/Images/userav.png";
 import { LogoutUser } from "../../redux/user/userFunction";
+// import { useEffect } from "react";
+import { toast } from "react-toastify";
+// import { useNavigate } from "react-router-dom";
 
 const ProfileBox = () => {
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.userData);
 
+  // useEffect(()=>{
+  //   dispatch(GetUser())
+  // },[user])
+
   const handelLogout = () => {
     try {
-      const res= dispatch(LogoutUser())
-      console.log(res)
+      const res = dispatch(LogoutUser());
+      toast(res || "Logout Successfully");
+      window.location.href='/'
+      // navigate("/");
     } catch (error) {
       console.error(error);
     }
@@ -62,7 +72,13 @@ const ProfileBox = () => {
           type="button"
           className="bg-blue-500 text-white py-2 px-4 rounded-md"
         >
-          Go Live
+          Live Page
+        </button>
+        <button
+          type="button"
+          className="bg-blue-500 text-white py-2 px-4 rounded-md"
+        >
+          Live Updating
         </button>
         <button
           type="button"

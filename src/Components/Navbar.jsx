@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GetUser } from "../../redux/user/userFunction";
-import UserAvatar from '../assets/Images/userav.png'
+import UserAvatar from "../assets/Images/userav.png";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -38,23 +39,29 @@ const Navbar = () => {
             </a>
           </div>
           <div className="flex items-center w-[50%] md:w-auto justify-between ">
-          {user ? (
+            {user ? (
               <div className="ml-4 flex items-center">
                 <img
                   src={UserAvatar}
                   alt={user.username}
                   className="w-8 h-8 rounded-full object-cover"
                 />
-                <span className="text-gray-800 ml-2 md:text-lg text-sm font-semibold ">{user.username}</span>
+                <span className="text-gray-800 ml-2 md:text-lg text-sm font-semibold ">
+                  {user.username}
+                </span>
               </div>
             ) : (
-              <div className="ml-2 none md:block ">
-                <button className="text-gray-800 md:text-lg text-sm bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-lg mr-2">
-                  Sign In
-                </button>
-                <button className="text-gray-800 md:text-lg text-sm bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-lg">
-                  Login
-                </button>
+              <div className="ml-4 flex ">
+                <Link to="/authentication">
+                  <button className="text-gray-800 md:text-lg text-xs bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-lg mr-2">
+                    Sign
+                  </button>
+                </Link>
+                <Link to="/authentication">
+                  <button className="text-gray-800 md:text-lg text-xs bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-lg">
+                    Login
+                  </button>
+                </Link>
               </div>
             )}
             <button

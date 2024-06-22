@@ -35,12 +35,12 @@ export const UpdateUser = createAsyncThunk(
   "user/update",
   async (userData, thunkAPI) => {
     try {
-      const response = await axios.put(HOST + UPDATE_USER, userData, {
+      const response = await axios.post(HOST + UPDATE_USER, userData, {
         headers: {
-          token: localStorage.getItem("token"),
+          token: localStorage.getItem("atoken"),
         },
       });
-      return response.data.userData;
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }

@@ -22,7 +22,7 @@ const LandingScreen = () => {
         </button>
       </div>
       <div onClick={notify} className="md:w-1/2 p-4">
-        <img src={landingImage} alt="Social Stream" className="w-full h-auto" />
+        <img src={landingImage} alt="Social Stream" className="object-contain" />
       </div>
     </div>
   );

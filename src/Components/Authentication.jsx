@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 function Authentication() {
-  
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,7 +28,11 @@ function Authentication() {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
 
-  const [authValues, setAuthValues] = useState({});
+  const [authValues, setAuthValues] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
   const [authType, setAuthType] = useState(false);
 
   const handleChange = (e) => {
@@ -38,7 +41,7 @@ function Authentication() {
 
   const handleAuthType = () => {
     setAuthType(!authType);
-    setAuthValues({});
+    setAuthValues({ username: "", email: "", password: "" });
   };
 
   const handleSignup = async (e) => {
@@ -54,9 +57,7 @@ function Authentication() {
           localStorage.setItem("atoken", res.payload.token);
           navigate("/home");
           toast.success("User Registered Successfully");
-          if (usernameRef.current) usernameRef.current.value = "";
-          if (emailRef.current) emailRef.current.value = "";
-          if (passwordRef.current) passwordRef.current.value = "";
+          setAuthValues({ username: "", email: "", password: "" });
         }
       } else {
         toast.error("Something went wrong, try again");
@@ -68,7 +69,6 @@ function Authentication() {
     if (signupRef.current) {
       signupRef.current.value = "Submit";
     }
-    setAuthValues({});
   };
 
   const handleLogin = async (e) => {
@@ -79,14 +79,12 @@ function Authentication() {
     try {
       const userData = authValues;
       const res = await dispatch(LoginUser(userData));
-      console.log(res);
       if (res.meta.requestStatus === "fulfilled") {
         if (res.payload.token) {
           localStorage.setItem("atoken", res.payload.token);
           navigate("/home");
           toast.success("Login Successful");
-          if (emailRef.current) emailRef.current.value = "";
-          if (passwordRef.current) passwordRef.current.value = "";
+          setAuthValues({ username: "", email: "", password: "" });
         }
       } else {
         toast.error("Something went wrong, try again");
@@ -98,7 +96,6 @@ function Authentication() {
     if (loginRef.current) {
       loginRef.current.value = "Submit";
     }
-    setAuthValues({});
   };
 
   return (
@@ -130,6 +127,7 @@ function Authentication() {
                 type="text"
                 name="email"
                 placeholder="Email"
+                value={authValues.email}
                 onChange={handleChange}
               />
               <input
@@ -139,6 +137,7 @@ function Authentication() {
                 type="password"
                 name="password"
                 placeholder="Password"
+                value={authValues.password}
                 onChange={handleChange}
               />
               <input
@@ -173,6 +172,7 @@ function Authentication() {
                 type="text"
                 name="username"
                 placeholder="Username"
+                value={authValues.username}
                 onChange={handleChange}
               />
               <input
@@ -182,6 +182,7 @@ function Authentication() {
                 id="email"
                 name="email"
                 placeholder="Email"
+                value={authValues.email}
                 onChange={handleChange}
               />
               <input
@@ -191,6 +192,7 @@ function Authentication() {
                 id="password"
                 name="password"
                 placeholder="Password"
+                value={authValues.password}
                 onChange={handleChange}
               />
               <input

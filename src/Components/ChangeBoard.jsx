@@ -1,14 +1,31 @@
-import { useState } from 'react';
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { UpdateUser } from "../../redux/user/userFunction";
+import { toast } from "react-toastify";
 
 const ChangeBoard = () => {
+  const dispatch = useDispatch();
+  const User = useSelector((state) => state.user.userData);
+
   const [user, setUser] = useState({
-    name: 'John Doe',
-    facebookApi: 'https://facebook.com/your-facebook-page',
-    youtubeApi: 'https://youtube.com/channel/your-channel-id',
-    twitterApi: 'https://twitter.com/your-twitter-handle',
+    name: "John Doe",
+    facebookApi: "https://facebook.com/your-facebook-page",
+    youtubeApi: "https://youtube.com/channel/your-channel-id",
+    twitterApi: "https://twitter.com/your-twitter-handle",
   });
 
   const [editingEnabled, setEditingEnabled] = useState(false);
+
+  useEffect(() => {
+    if (User) {
+      setUser({
+        name: User.username || "John Doe",
+        facebookApi: User.facebook_api || "https://facebook.com/your-facebook-page",
+        youtubeApi: User.youtube_api || "https://youtube.com/channel/your-channel-id",
+        twitterApi: User.twitter_api || "https://twitter.com/your-twitter-handle",
+      });
+    }
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -19,10 +36,29 @@ const ChangeBoard = () => {
     setEditingEnabled(true);
   };
 
-  const handleSaveChanges = (e) => {
+  const handleSaveChanges = async (e) => {
     e.preventDefault();
-    // Handle save changes logic (e.g., update API links in backend)
-    setEditingEnabled(false); // Disable editing after saving changes
+    try {
+      const res = await dispatch(
+        UpdateUser({
+          username: user.name,
+          youtube_api: user.youtubeApi,
+          facebook_api: user.facebookApi,
+          twitter_api: user.twitterApi,
+        })
+      ).unwrap();
+      // console.log(res)
+      if (res) {
+        toast.success("Update fields successfull")
+        setEditingEnabled(false);
+      }
+      else{
+        toast.error("Something went wrong")
+      }
+    } catch (error) {
+      console.error("Failed to update user:", error);
+      // Optionally, show an error message to the user
+    }
   };
 
   return (
@@ -31,7 +67,9 @@ const ChangeBoard = () => {
 
       <form className="space-y-4" onSubmit={handleSaveChanges}>
         <div className="flex items-center">
-          <label htmlFor="name" className="w-1/4 font-medium">Name:</label>
+          <label htmlFor="name" className="w-1/4 font-medium">
+            Name:
+          </label>
           <input
             type="text"
             id="name"
@@ -39,12 +77,18 @@ const ChangeBoard = () => {
             value={user.name}
             onChange={handleInputChange}
             disabled={!editingEnabled}
-            className={`w-full p-2 rounded-md ${editingEnabled ? 'bg-white border-gray-400' : 'bg-gray-100 border-gray-300'}`}
+            className={`w-full p-2 rounded-md ${
+              editingEnabled
+                ? "bg-white border-gray-400"
+                : "bg-gray-100 border-gray-300"
+            }`}
           />
         </div>
 
         <div className="flex items-center">
-          <label htmlFor="facebookApi" className="w-1/4 font-medium">Facebook API:</label>
+          <label htmlFor="facebookApi" className="w-1/4 font-medium">
+            Facebook API:
+          </label>
           <input
             type="text"
             id="facebookApi"
@@ -52,12 +96,18 @@ const ChangeBoard = () => {
             value={user.facebookApi}
             onChange={handleInputChange}
             disabled={!editingEnabled}
-            className={`w-full p-2 rounded-md ${editingEnabled ? 'bg-white border-gray-400' : 'bg-gray-100 border-gray-300'}`}
+            className={`w-full p-2 rounded-md ${
+              editingEnabled
+                ? "bg-white border-gray-400"
+                : "bg-gray-100 border-gray-300"
+            }`}
           />
         </div>
 
         <div className="flex items-center">
-          <label htmlFor="youtubeApi" className="w-1/4 font-medium">YouTube API:</label>
+          <label htmlFor="youtubeApi" className="w-1/4 font-medium">
+            YouTube API:
+          </label>
           <input
             type="text"
             id="youtubeApi"
@@ -65,12 +115,18 @@ const ChangeBoard = () => {
             value={user.youtubeApi}
             onChange={handleInputChange}
             disabled={!editingEnabled}
-            className={`w-full p-2 rounded-md ${editingEnabled ? 'bg-white border-gray-400' : 'bg-gray-100 border-gray-300'}`}
+            className={`w-full p-2 rounded-md ${
+              editingEnabled
+                ? "bg-white border-gray-400"
+                : "bg-gray-100 border-gray-300"
+            }`}
           />
         </div>
 
         <div className="flex items-center">
-          <label htmlFor="twitterApi" className="w-1/4 font-medium">Twitter API:</label>
+          <label htmlFor="twitterApi" className="w-1/4 font-medium">
+            Twitter API:
+          </label>
           <input
             type="text"
             id="twitterApi"
@@ -78,7 +134,11 @@ const ChangeBoard = () => {
             value={user.twitterApi}
             onChange={handleInputChange}
             disabled={!editingEnabled}
-            className={`w-full p-2 rounded-md ${editingEnabled ? 'bg-white border-gray-400' : 'bg-gray-100 border-gray-300'}`}
+            className={`w-full p-2 rounded-md ${
+              editingEnabled
+                ? "bg-white border-gray-400"
+                : "bg-gray-100 border-gray-300"
+            }`}
           />
         </div>
 
@@ -104,7 +164,11 @@ const ChangeBoard = () => {
           <button
             type="submit"
             disabled={!editingEnabled}
-            className={`py-2 px-4 rounded-md ${editingEnabled ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-600'}`}
+            className={`py-2 px-4 rounded-md ${
+              editingEnabled
+                ? "bg-blue-500 text-white"
+                : "bg-gray-300 text-gray-600"
+            }`}
           >
             Save Changes
           </button>
