@@ -79,6 +79,7 @@ function Authentication() {
     try {
       const userData = authValues;
       const res = await dispatch(LoginUser(userData));
+      console.log(res)
       if (res.meta.requestStatus === "fulfilled") {
         if (res.payload.token) {
           localStorage.setItem("atoken", res.payload.token);

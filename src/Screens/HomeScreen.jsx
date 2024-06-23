@@ -26,7 +26,7 @@ function HomeScreen() {
   return (
     <div className="flex flex-col items-center justify-evenly p-6 h-[35rem]">
       <h1 className="text-3xl font-bold mb-10 text-center text-gray-800">
-        Welcome to Social Stream
+      🤚 Welcome, to Social Stream
       </h1>
       <div className="flex flex-col-reverse lg:flex-row justify-evenly items-start w-full gap-10">
         <div className="w-full lg:w-2/3 bg-white rounded-lg shadow-lg p-6">

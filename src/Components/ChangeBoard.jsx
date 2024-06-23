@@ -63,7 +63,7 @@ const ChangeBoard = () => {
 
   return (
     <div className="w-full h-full mt-8 p-4">
-      <h1 className="text-2xl font-semibold text-start mb-4">Update fields</h1>
+      <h1 className="text-2xl font-semibold text-start mb-4">✍ Update fields</h1>
 
       <form className="space-y-4" onSubmit={handleSaveChanges}>
         <div className="flex items-center">

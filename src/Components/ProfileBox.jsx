@@ -5,21 +5,26 @@ import { LogoutUser } from "../../redux/user/userFunction";
 // import { useEffect } from "react";
 import { toast } from "react-toastify";
 // import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const ProfileBox = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.userData);
 
   // useEffect(()=>{
   //   dispatch(GetUser())
   // },[user])
+  const NavigateToStream = () => {
+    toast("hallo");
+    navigate("/stream");
+  };
 
   const handelLogout = () => {
     try {
       const res = dispatch(LogoutUser());
       toast(res || "Logout Successfully");
-      window.location.href='/'
+      window.location.href = "/";
       // navigate("/");
     } catch (error) {
       console.error(error);
@@ -69,21 +74,22 @@ const ProfileBox = () => {
       </ul>
       <div className="w-full pt-5 flex justify-evenly items-center">
         <button
+          onClick={NavigateToStream}
           type="button"
-          className="bg-blue-500 text-white py-2 px-4 rounded-md"
+          className="bg-blue-500 text-white py-2 px-4 text-xs md:text-sm rounded-md"
         >
-          Live Page
+          Streaming
         </button>
         <button
           type="button"
-          className="bg-blue-500 text-white py-2 px-4 rounded-md"
+          className="bg-blue-500 text-white py-2 px-4 text-xs md:text-sm rounded-md"
         >
-          Live Updating
+          Updating
         </button>
         <button
           type="button"
           onClick={handelLogout}
-          className=" text-red-500 border-2 border-red-500 hover:bg-red-100 py-2 px-4 rounded-md"
+          className=" text-red-500 border-2 border-red-500 hover:bg-red-100 text-xs md:text-sm py-2 px-4 rounded-md"
         >
           Logout
         </button>
