@@ -1,4 +1,3 @@
-import React from "react";
 import { FiYoutube, FiInstagram, FiTwitter } from "react-icons/fi";
 
 const socialPlatforms = [

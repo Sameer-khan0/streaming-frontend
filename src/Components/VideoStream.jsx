@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { FaVideo, FaVideoSlash, FaRegStopCircle } from 'react-icons/fa'; // Importing icons from react-icons
+import { FaVideo, FaVideoSlash } from 'react-icons/fa';
 
 const VideoStream = ({ socket }) => {
   const [isCameraOn, setIsCameraOn] = useState(false);

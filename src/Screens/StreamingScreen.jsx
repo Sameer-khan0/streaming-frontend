@@ -66,9 +66,11 @@ const App = () => {
 
   return (
     <div className="flex flex-col items-center h-[40rem] pt-20">
-      <h1 className="text-2xl font-bold pb-5">Choose Platform for stream</h1>
       {!connected ? (
+        <>
+        <h1 className="text-2xl font-bold pb-5">Choose Platform for stream</h1>
         <SocaialBox connect={connectSocket} selectplatform={setplatform} />
+        </>
         // <button
         //   onClick={connectSocket}
         //   className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
@@ -76,12 +78,15 @@ const App = () => {
         //   Connect
         // </button>
       ) : (
+        <>
+        <h1 className="text-2xl font-bold pb-5">Click on turn on camera and start stream</h1>
         <button
           onClick={disconnectSocket}
           className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition"
-        >
+          >
           Disconnect
         </button>
+        </>
       )}
       {connected && socket && <VideoStream socket={socket} platform={platform} />}
     </div>
